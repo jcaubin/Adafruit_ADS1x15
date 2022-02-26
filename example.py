@@ -16,7 +16,7 @@ def readData():
 def loop():
     while True:
         readData()
-        sleep(0.2)
+        sleep(0.5)
 
 if __name__ == '__main__':     # Program start from here
 	try:
