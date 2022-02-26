@@ -1,4 +1,4 @@
-#Libreria de trabajo con ADC ADS115
+## Libreria de trabajo con ADC ADS115
 
 Derivada del código descontinuado de Adafruit
 
