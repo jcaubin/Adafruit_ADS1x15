@@ -2,6 +2,10 @@
 
 from time import sleep
 import Adafruit_ADS1x15 as adf
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
+logger = logging.getLogger(__name__)
 
 ADS1015 = 0x00  
 ADS1115 = 0x01 
