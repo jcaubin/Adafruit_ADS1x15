@@ -19,8 +19,10 @@ def readData():
 
 def loop():
     while True:
+
+        
         readData()
-        sleep(0.5)
+        sleep(0.99)
 
 if __name__ == '__main__':     # Program start from here
 	try:
