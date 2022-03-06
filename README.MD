@@ -3,3 +3,6 @@
 Derivada del código descontinuado de Adafruit
 
 https://github.com/adafruit/Adafruit-Raspberry-Pi-Python-Code/tree/legacy/Adafruit_ADS1x15
+
+adaptada a phyton 3
+modernizada
