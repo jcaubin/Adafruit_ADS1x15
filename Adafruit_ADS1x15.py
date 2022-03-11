@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 import time
-import smbus
 from Adafruit_I2C import Adafruit_I2C
 import logging
 
@@ -22,6 +21,18 @@ logger = logging.getLogger(__name__)
 
 
 class ADS1x15:
+    """
+        ADS1x15 Class
+
+        Originally written by K. Townsend, Adafruit (https://github.com/adafruit/Adafruit-Raspberry-Pi-Python-Code/tree/master/Adafruit_ADS1x15)
+        Updates and new functions implementation by Pedro Villanueva, 03/2013.
+        The only error in the original code was in line 57:
+                    __ADS1015_REG_CONFIG_DR_920SPS    = 0x0050
+        should be
+                    __ADS1015_REG_CONFIG_DR_920SPS    = 0x0060
+
+        NOT IMPLEMENTED: Conversion ready pin, page 15 datasheet.
+    """
     i2c = None
 
     # IC Identifiers
@@ -247,11 +258,11 @@ class ADS1x15:
                 return ((result[0] << 8) | (result[1]))*pga/32768.0
 
     def readADCDifferential(self, chP=0, chN=1, pga=6144, sps=250):
-        "Gets a differential ADC reading from channels chP and chN in mV. \
+        """Gets a differential ADC reading from channels chP and chN in mV. \
         The sample rate for this mode (single-shot) can be used to lower the noise \
         (low sps) or to lower the power consumption (high sps) by duty cycling, \
         see data sheet page 14 for more info. \
-        The pga must be given in mV, see page 13 for the supported values."
+        The pga must be given in mV, see page 13 for the supported values."""
 
         # Disable comparator, Non-latching, Alert/Rdy active low
         # traditional comparator, single-shot mode
@@ -325,44 +336,44 @@ class ADS1x15:
                 return ((result[0] << 8) | (result[1]))*pga/32768.0
 
     def readADCDifferential01(self, pga=6144, sps=250):
-        "Gets a differential ADC reading from channels 0 and 1 in mV\
+        """Gets a differential ADC reading from channels 0 and 1 in mV\
         The sample rate for this mode (single-shot) can be used to lower the noise \
         (low sps) or to lower the power consumption (high sps) by duty cycling, \
         see data sheet page 14 for more info. \
-        The pga must be given in mV, see page 13 for the supported values."
+        The pga must be given in mV, see page 13 for the supported values."""
         return self.readADCDifferential(0, 1, pga, sps)
 
     def readADCDifferential03(self, pga=6144, sps=250):
-        "Gets a differential ADC reading from channels 0 and 3 in mV \
+        """Gets a differential ADC reading from channels 0 and 3 in mV \
         The sample rate for this mode (single-shot) can be used to lower the noise \
         (low sps) or to lower the power consumption (high sps) by duty cycling, \
         see data sheet page 14 for more info. \
-        The pga must be given in mV, see page 13 for the supported values."
+        The pga must be given in mV, see page 13 for the supported values."""
         return self.readADCDifferential(0, 3, pga, sps)
 
     def readADCDifferential13(self, pga=6144, sps=250):
-        "Gets a differential ADC reading from channels 1 and 3 in mV \
+        """Gets a differential ADC reading from channels 1 and 3 in mV \
         The sample rate for this mode (single-shot) can be used to lower the noise \
         (low sps) or to lower the power consumption (high sps) by duty cycling, \
         see data sheet page 14 for more info. \
-        The pga must be given in mV, see page 13 for the supported values."
+        The pga must be given in mV, see page 13 for the supported values."""
         return self.__readADCDifferential(1, 3, pga, sps)
 
     def readADCDifferential23(self, pga=6144, sps=250):
-        "Gets a differential ADC reading from channels 2 and 3 in mV \
+        """Gets a differential ADC reading from channels 2 and 3 in mV \
         The sample rate for this mode (single-shot) can be used to lower the noise \
         (low sps) or to lower the power consumption (high sps) by duty cycling, \
         see data sheet page 14 for more info. \
-        The pga must be given in mV, see page 13 for the supported values."
+        The pga must be given in mV, see page 13 for the supported values."""
         return self.readADCDifferential(2, 3, pga, sps)
 
     def startContinuousConversion(self, channel=0, pga=6144, sps=250):
-        "Starts the continuous conversion mode and returns the first ADC reading \
+        """Starts the continuous conversion mode and returns the first ADC reading \
         in mV from the specified channel. \
         The sps controls the sample rate. \
         The pga must be given in mV, see datasheet page 13 for the supported values. \
         Use getLastConversionResults() to read the next values and \
-        stopContinuousConversion() to stop converting."
+        stopContinuousConversion() to stop converting."""
 
         # Default to channel 0 with invalid channel, or return -1?
         if (channel > 3):
@@ -438,12 +449,12 @@ class ADS1x15:
                 return ((result[0] << 8) | (result[1]))*pga/32768.0
 
     def startContinuousDifferentialConversion(self, chP=0, chN=1, pga=6144, sps=250):
-        "Starts the continuous differential conversion mode and returns the first ADC reading \
+        """Starts the continuous differential conversion mode and returns the first ADC reading \
         in mV as the difference from the specified channels. \
         The sps controls the sample rate. \
         The pga must be given in mV, see datasheet page 13 for the supported values. \
         Use getLastConversionResults() to read the next values and \
-        stopContinuousConversion() to stop converting."
+        stopContinuousConversion() to stop converting."""
 
         # Disable comparator, Non-latching, Alert/Rdy active low
         # traditional comparator, continuous mode
@@ -517,8 +528,8 @@ class ADS1x15:
                 return ((result[0] << 8) | (result[1]))*pga/32768.0
 
     def stopContinuousConversion(self):
-        "Stops the ADC's conversions when in continuous mode \
-        and resets the configuration to its default value."
+        """Stops the ADC's conversions when in continuous mode \
+        and resets the configuration to its default value."""
         # Write the default config register to the ADC
         # Once we write, the ADC will do a single conversion and
         # enter power-off mode.
@@ -528,7 +539,7 @@ class ADS1x15:
         return True
 
     def getLastConversionResults(self):
-        "Returns the last ADC conversion result in mV"
+        """Returns the last ADC conversion result in mV"""
         # Read the conversion results
         result = self.i2c.readList(self.__ADS1015_REG_POINTER_CONVERT, 2)
         if (self.ic == self.__IC_ADS1015):
@@ -547,7 +558,7 @@ class ADS1x15:
                                    pga=6144, sps=250,
                                    activeLow=True, traditionalMode=True, latching=False,
                                    numReadings=1):
-        "Starts the comparator mode on the specified channel, see datasheet pg. 15. \
+        """Starts the comparator mode on the specified channel, see datasheet pg. 15. \
         In traditional mode it alerts (ALERT pin will go low)  when voltage exceeds  \
         thresholdHigh until it falls below thresholdLow (both given in mV). \
         In window mode (traditionalMode=False) it alerts when voltage doesn't lie\
@@ -557,7 +568,7 @@ class ADS1x15:
         Use getLastConversionResults() to read the current value  (which may differ \
         from the one that triggered the alert) and clear the alert pin in latching mode. \
         This function starts the continuous conversion mode.  The sps controls \
-        the sample rate and the pga the gain, see datasheet page 13. "
+        the sample rate and the pga the gain, see datasheet page 13. """
 
         # With invalid channel return -1
         if (channel > 3):
@@ -649,7 +660,7 @@ class ADS1x15:
                                     pga=6144, sps=250,
                                     activeLow=True, traditionalMode=True, latching=False,
                                     numReadings=1):
-        "Starts the comparator mode on the specified channel, see datasheet pg. 15. \
+        """Starts the comparator mode on the specified channel, see datasheet pg. 15. \
         In traditional mode it alerts (ALERT pin will go low)  when voltage exceeds  \
         thresholdHigh until it falls below thresholdLow (both given in mV). \
         In window mode (traditionalMode=False) it alerts when voltage doesn't lie\
@@ -659,7 +670,7 @@ class ADS1x15:
         Use getLastConversionResults() to read the current value  (which may differ \
         from the one that triggered the alert) and clear the alert pin in latching mode. \
         This function starts the continuous conversion mode.  The sps controls \
-        the sample rate and the pga the gain, see datasheet page 13. "
+        the sample rate and the pga the gain, see datasheet page 13. """
 
         # Continuous mode
         config = self.__ADS1015_REG_CONFIG_MODE_CONTIN

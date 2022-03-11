@@ -3,7 +3,7 @@
 from time import sleep
 import Adafruit_ADS1x15 as adf
 import logging
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.ERROR)
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +22,7 @@ def loop():
 
         
         readData()
-        sleep(0.99)
+        sleep(0.2)
 
 if __name__ == '__main__':     # Program start from here
 	try:
