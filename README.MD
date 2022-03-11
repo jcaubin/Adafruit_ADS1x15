@@ -19,7 +19,9 @@ Written by Limor Fried, Kevin Townsend and Mikey Sklar for Adafruit Industries. 
 
 To download, we suggest logging into your Pi with Internet accessibility and typing:
 
+```
 git clone https://github.com/adafruit/Adafruit-Raspberry-Pi-Python-Code.git
+```
 ============ Copyright (c) 2012-2013 Limor Fried, Kevin Townsend and Mikey Sklar for Adafruit Industries. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met: * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer. * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution. * Neither the name of the nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
