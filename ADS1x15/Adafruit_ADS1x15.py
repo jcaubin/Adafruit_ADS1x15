@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import time
-from Adafruit_I2C import Adafruit_I2C
+from ADS1x15.Adafruit_I2C import Adafruit_I2C
 import logging
 
 logger = logging.getLogger(__name__)

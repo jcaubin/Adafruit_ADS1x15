@@ -1,7 +1,11 @@
 #pruebas del adafruit
 
+#ruta para el paquete
+import sys
+sys.path.append('.')
+
 from time import sleep
-import Adafruit_ADS1x15 as adf
+from ADS1x15.Adafruit_ADS1x15 import ADS1x15
 import logging
 logging.basicConfig(level=logging.ERROR)
 
@@ -10,7 +14,7 @@ logger = logging.getLogger(__name__)
 ADS1015 = 0x00  
 ADS1115 = 0x01 
 
-ads = adf.ADS1x15(address=0x48, ic=ADS1115)
+ads = ADS1x15(address=0x48, ic=ADS1115)
 
 def readData():
     d= ads.readADCSingleEnded()
