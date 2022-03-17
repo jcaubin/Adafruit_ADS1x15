@@ -1,7 +1,8 @@
 #!/usr/bin/python
 
 import time
-from ADS1x15.Adafruit_I2C import Adafruit_I2C
+import ADS1x15.Adafruit_I2C as ai2c
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -158,13 +159,13 @@ class ADS1x15:
 
     # Constructor
 
-    def __init__(self, address=0x48, ic=__IC_ADS1015, debug=False):
+    def __init__(self, address=0x48, ic=__IC_ADS1015, debug=False, i2c: ai2c.Adafruit_I2C = ai2c.Adafruit_I2C(0x48, busnum=1)):
         # Depending on if you have an old or a new Raspberry Pi, you
         # may need to change the I2C bus.  Older Pis use SMBus 0,
         # whereas new Pis use SMBus 1.  If you see an error like:
         # 'Error accessing 0x48: Check your I2C address '
         # change the SMBus number in the initializer below!
-        self.i2c = Adafruit_I2C(address, busnum=1)
+        self.i2c = i2c
         self.address = address
         self.debug = debug
 
@@ -252,10 +253,11 @@ class ADS1x15:
             # Return a mV value for the ADS1115
             # (Take signed values into account as well)
             val = (result[0] << 8) | (result[1])
+            logger.debug(f'val {val}; reult{result}')
             if val > 0x7FFF:
                 return (val - 0xFFFF)*pga/32768.0
             else:
-                return ((result[0] << 8) | (result[1]))*pga/32768.0
+                return (val)*pga/32768.0
 
     def readADCDifferential(self, chP=0, chN=1, pga=6144, sps=250):
         """Gets a differential ADC reading from channels chP and chN in mV. \
